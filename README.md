@@ -29,7 +29,7 @@
 - PostgreSQL pk uuid v4 vs v7 비교
 
 ## Test 결과
-![img_1.png](img_1.png)
+![img.png](img.png)
 
 
 ## 참고자료
