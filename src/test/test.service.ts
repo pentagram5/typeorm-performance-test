@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { UserV7 } from './userV7.entity';
+import { UserAi } from './userAi.entity';
 
 @Injectable()
 export class TestService {
@@ -11,6 +12,8 @@ export class TestService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(UserV7)
     private readonly userV7Repository: Repository<UserV7>,
+    @InjectRepository(UserAi)
+    private readonly userAiRepository: Repository<UserAi>,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -18,8 +21,12 @@ export class TestService {
     await this.userRepository.insert(users);
   }
 
-  async bulkInsertV7(users: Partial<User>[]) {
+  async bulkInsertV7(users: Partial<UserV7>[]) {
     await this.userV7Repository.insert(users);
+  }
+
+  async bulkInsertAi(users: Partial<UserAi>[]) {
+    await this.userAiRepository.insert(users);
   }
 
   async bulkSave(users: Partial<User>[]) {
@@ -28,25 +35,21 @@ export class TestService {
   }
 
   async bulkInsertLoop(users: Partial<User>[]) {
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
-    // T. 트랜잭션 시작
-    await queryRunner.startTransaction();
     for (const user of users) {
-      await queryRunner.manager.insert(User, user);
+      await this.userRepository.insert(user);
     }
-    await queryRunner.commitTransaction();
   }
 
-  async bulkInsertV7Loop(users: Partial<User>[]) {
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
-    // T. 트랜잭션 시작
-    await queryRunner.startTransaction();
+  async bulkInsertV7Loop(users: Partial<UserV7>[]) {
     for (const user of users) {
-      await queryRunner.manager.insert(UserV7, user);
+      await this.userV7Repository.insert(user);
     }
-    await queryRunner.commitTransaction();
+  }
+
+  async bulkInsertAiLoop(users: Partial<UserAi>[]) {
+    for (const user of users) {
+      await this.userAiRepository.insert(user);
+    }
   }
 
   async bulkSaveLoop(users: Partial<User>[]) {
@@ -75,5 +78,6 @@ export class TestService {
   async initDB() {
     await this.userRepository.clear();
     await this.userV7Repository.clear();
+    await this.userAiRepository.clear();
   }
 }
