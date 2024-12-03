@@ -42,41 +42,41 @@ describe('Performance Test', () => {
       getRepositoryToken(UserV7),
     );
 
-    // await testService.initDB();
+    await testService.initDB();
   });
 
-  // describe('typeORM save, insert test', () => {
-  //   it('should test async save method performance', async () => {
-  //     const users = Array.from({ length: length }, (_, i) => ({
-  //       name: `User${i}`,
-  //     }));
-  //
-  //     await testService.bulkSave(users);
-  //   });
-  //
-  //   it('should test async insert method performance', async () => {
-  //     const users = Array.from({ length: length }, (_, i) => ({
-  //       name: `User${i}`,
-  //     }));
-  //     await testService.bulkInsert(users);
-  //   });
-  //
-  //   it('should test loop save method performance', async () => {
-  //     const users = Array.from({ length: length }, (_, i) => ({
-  //       name: `User${i}`,
-  //     }));
-  //
-  //     await testService.bulkSaveLoop(users);
-  //   });
-  //
-  //   it('should test loop insert method performance', async () => {
-  //     const users = Array.from({ length: length }, (_, i) => ({
-  //       name: `User${i}`,
-  //     }));
-  //
-  //     await testService.bulkInsertLoop(users);
-  //   });
-  // });
+  describe('typeORM save, insert test', () => {
+    it('should test async save method performance', async () => {
+      const users = Array.from({ length: length }, (_, i) => ({
+        name: `User${i}`,
+      }));
+
+      await testService.bulkSave(users);
+    });
+
+    it('should test async insert method performance', async () => {
+      const users = Array.from({ length: length }, (_, i) => ({
+        name: `User${i}`,
+      }));
+      await testService.bulkInsert(users);
+    });
+
+    it('should test loop save method performance', async () => {
+      const users = Array.from({ length: length }, (_, i) => ({
+        name: `User${i}`,
+      }));
+
+      await testService.bulkSaveLoop(users);
+    });
+
+    it('should test loop insert method performance', async () => {
+      const users = Array.from({ length: length }, (_, i) => ({
+        name: `User${i}`,
+      }));
+
+      await testService.bulkInsertLoop(users);
+    });
+  });
 
   describe('pk uuid v4 vs v7 save, insert test', () => {
     // it('should test loop insert v7 method performance', async () => {
